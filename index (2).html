@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>望家睿 智慧健康與體組成全方位分析系統 | Wang Jia-Rui Ultimate Health Hub</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Noto Sans TC & Outfit) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #0b1329 0%, #062c24 50%, #0b1329 100%);
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+
+        .num-font {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Glassmorphism Styling */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(52, 211, 153, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-input {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .glass-input:focus {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: #34d399;
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.3);
+            outline: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        /* Print Media Styling */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #0f172a !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .glass-panel, .glass-card {
+                background: #ffffff !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+                color: #0f172a !important;
+            }
+            .text-white, .text-slate-100, .text-slate-200, .text-slate-300 {
+                color: #0f172a !important;
+            }
+            .text-emerald-400, .text-cyan-400, .text-amber-400 {
+                color: #047857 !important;
+            }
+            .print-break-inside-avoid {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body class="py-6 px-3 sm:px-6 md:py-8">
+
+    <div class="max-w-[1500px] mx-auto space-y-6">
+
+        <!-- ================= TOP EXECUTIVE HEADER ================= -->
+        <header class="glass-panel rounded-3xl p-6 md:p-8 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 relative overflow-hidden">
+            <!-- Background Glows -->
+            <div class="absolute -top-16 -left-16 w-60 h-60 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-16 -right-16 w-60 h-60 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="z-10 flex-1">
+                <div class="flex items-center flex-wrap gap-2 mb-2">
+                    <span class="px-3 py-1 bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 font-black text-xs rounded-full uppercase tracking-wider shadow-md">
+                        Executive Health OS v5.0
+                    </span>
+                    <span class="text-xs text-slate-400 font-medium flex items-center gap-1 bg-slate-800/60 px-3 py-1 rounded-full border border-slate-700/60">
+                        <i class="fa-solid fa-hospital-user text-emerald-400"></i> 衛生福利部與美國海軍海軍體組成校正公式
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-300 bg-clip-text text-transparent">
+                    望家睿 智慧健康與體組成全方位分析系統
+                </h1>
+                <p class="text-slate-400 text-xs sm:text-sm mt-1">
+                    Wang Jia-Rui Ultimate Health & Body Composition Hub • 結合 BMI、US Navy 體脂率、FFMI、BMR 三公式、TDEE、心率區間與目標對比
+                </p>
+            </div>
+
+            <!-- Global Action Bar -->
+            <div class="flex flex-wrap items-center gap-3 no-print z-10">
+                <!-- Unit Switcher -->
+                <div class="flex bg-slate-900/90 p-1 rounded-2xl border border-slate-700/80">
+                    <button type="button" onclick="setUnit('metric')" id="unit-btn-metric" class="px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500 text-slate-950">
+                        公制 (cm/kg)
+                    </button>
+                    <button type="button" onclick="setUnit('imperial')" id="unit-btn-imperial" class="px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white">
+                        英制 (in/lbs)
+                    </button>
+                </div>
+
+                <button onclick="saveCurrentRecord()" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow-md">
+                    <i class="fa-solid fa-floppy-disk text-emerald-400"></i> 儲存紀錄
+                </button>
+
+                <button onclick="copyDiagnosticReport()" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow-md">
+                    <i class="fa-regular fa-copy text-cyan-400"></i> 複製報告
+                </button>
+
+                <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 transition active:scale-95 shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-print"></i> PDF 列印報告
+                </button>
+            </div>
+        </header>
+
+        <!-- ================= MAIN LAYOUT GRID ================= -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- LEFT INPUT SIDEBAR (4 COLS) -->
+            <section class="lg:col-span-4 glass-panel rounded-3xl p-6 space-y-6 no-print">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-emerald-400"></i>
+                        <span>個人身體數據與目標設定</span>
+                    </h2>
+                    <span class="text-xs text-slate-400 font-mono">LIVE ENGINE</span>
+                </div>
+
+                <form id="health-form" onsubmit="event.preventDefault();" class="space-y-4">
+
+                    <!-- 基本資料 -->
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">受測者姓名</label>
+                                <input type="text" id="input-name" value="望家睿" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-bold" oninput="runAllCalculations()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">年齡 (Age)</label>
+                                <input type="number" id="input-age" value="28" min="1" max="120" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">生理性別 (Gender)</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" onclick="setGender('male')" id="btn-male" class="py-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition bg-emerald-500/20 border-emerald-400 text-emerald-300">
+                                    <i class="fa-solid fa-mars"></i> 生理男
+                                </button>
+                                <button type="button" onclick="setGender('female')" id="btn-female" class="py-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition bg-slate-800 border-slate-700 text-slate-400">
+                                    <i class="fa-solid fa-venus"></i> 生理女
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 身高與體重 -->
+                    <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/80">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-semibold text-slate-300">身高 <span class="unit-label-height text-[10px] text-slate-400">(cm)</span></label>
+                            </div>
+                            <input type="number" id="input-height" value="175" step="0.5" min="50" max="250" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-semibold text-slate-300">體重 <span class="unit-label-weight text-[10px] text-slate-400">(kg)</span></label>
+                            </div>
+                            <input type="number" id="input-weight" value="68.0" step="0.1" min="10" max="300" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                        </div>
+                    </div>
+
+                    <!-- 圍度數據 (US Navy Body Fat Calculation) -->
+                    <div class="space-y-3 pt-2 border-t border-slate-800/80">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-cyan-400 flex items-center gap-1">
+                                <i class="fa-solid fa-tape"></i> 身體圍度 (US Navy 體脂估算)
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-300 mb-1">頸圍 <span class="unit-label-length text-[9px] text-slate-400">(cm)</span></label>
+                                <input type="number" id="input-neck" value="37.5" step="0.5" class="glass-input w-full py-1.5 px-2.5 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-300 mb-1">腰圍 <span class="unit-label-length text-[9px] text-slate-400">(cm)</span></label>
+                                <input type="number" id="input-waist" value="78.0" step="0.5" class="glass-input w-full py-1.5 px-2.5 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                            </div>
+                            <div id="hip-input-container">
+                                <label class="block text-[11px] font-semibold text-slate-300 mb-1">臀圍 <span class="unit-label-length text-[9px] text-slate-400">(cm)</span></label>
+                                <input type="number" id="input-hip" value="95.0" step="0.5" class="glass-input w-full py-1.5 px-2.5 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 活動量與目標 -->
+                    <div class="space-y-3 pt-2 border-t border-slate-800/80">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">日常活動量級別 (Activity Level)</label>
+                            <select id="input-activity" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-semibold cursor-pointer" onchange="runAllCalculations()">
+                                <option value="1.2">久坐型 (辦公室工作、無規律運動)</option>
+                                <option value="1.375" selected>輕量活動 (每週輕度運動 1-3 天)</option>
+                                <option value="1.55">中度活動 (每週中強度運動 3-5 天)</option>
+                                <option value="1.725">高強度運動 (每週高強度運動 6-7 天)</option>
+                                <option value="1.9">極高強度 (體育選手、重體力勞動)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">健康與體態目標 (Fitness Goal)</label>
+                            <select id="input-goal" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-semibold cursor-pointer" onchange="runAllCalculations()">
+                                <option value="-0.25">快速減脂 (TDEE -25%)</option>
+                                <option value="-0.15" selected>健康減重/減脂 (TDEE -15%)</option>
+                                <option value="0">維持體重體態 (TDEE +0%)</option>
+                                <option value="0.10">精壯增肌 (TDEE +10%)</option>
+                            </select>
+                        </div>
+
+                        <!-- 飲食配比模式 -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">三大營養素配比模式</label>
+                            <select id="input-macro-split" class="glass-input w-full py-2 px-3 rounded-xl text-xs font-semibold cursor-pointer" onchange="runAllCalculations()">
+                                <option value="balanced" selected>均衡飲食 (碳水 50% / 蛋白質 25% / 脂肪 25%)</option>
+                                <option value="high-protein">高蛋白健身 (碳水 40% / 蛋白質 35% / 脂肪 25%)</option>
+                                <option value="low-carb">低碳高脂 (碳水 15% / 蛋白質 35% / 脂肪 50%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 目標體重與週數推算 -->
+                    <div class="p-3 bg-slate-900/60 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                            <i class="fa-solid fa-bullseye"></i> 目標體重計畫時程
+                        </span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">目標體重 <span class="unit-label-weight">(kg)</span></label>
+                                <input type="number" id="input-target-weight" value="65.0" step="0.5" class="glass-input w-full py-1.5 px-2.5 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">預計達成週數</label>
+                                <input type="number" id="input-target-weeks" value="8" min="1" max="52" class="glass-input w-full py-1.5 px-2.5 rounded-xl text-xs font-bold num-font" oninput="runAllCalculations()">
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+
+            <!-- RIGHT MAIN DASHBOARD (8 COLS) -->
+            <main class="lg:col-span-8 space-y-6">
+
+                <!-- 1. TOP QUICK METRICS BADGES -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <!-- BMI -->
+                    <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-emerald-400 space-y-1">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-semibold">
+                            <span>BMI 數值</span>
+                            <span id="badge-bmi-cat" class="text-emerald-400">標準</span>
+                        </div>
+                        <div id="stat-bmi" class="text-2xl sm:text-3xl font-black text-white num-font">22.2</div>
+                        <div id="stat-bmi-desc" class="text-[10px] text-slate-400 truncate">衛福部 18.5 ~ 23.9</div>
+                    </div>
+
+                    <!-- Body Fat % -->
+                    <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-cyan-400 space-y-1">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-semibold">
+                            <span>體脂率 (US Navy)</span>
+                            <span id="badge-fat-cat" class="text-cyan-400">理想</span>
+                        </div>
+                        <div id="stat-bodyfat" class="text-2xl sm:text-3xl font-black text-cyan-300 num-font">16.8 %</div>
+                        <div id="stat-fat-mass" class="text-[10px] text-slate-400 truncate">脂肪重 11.4 kg</div>
+                    </div>
+
+                    <!-- TDEE Target -->
+                    <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-amber-400 space-y-1">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-semibold">
+                            <span>目標每日熱量</span>
+                            <span id="badge-goal-type" class="text-amber-400">-15%</span>
+                        </div>
+                        <div id="stat-target-cal" class="text-2xl sm:text-3xl font-black text-amber-300 num-font">1,920</div>
+                        <div id="stat-tdee-base" class="text-[10px] text-slate-400 truncate">TDEE 2,259 kcal</div>
+                    </div>
+
+                    <!-- Water Requirement -->
+                    <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-blue-400 space-y-1">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-semibold">
+                            <span>最佳每日水量</span>
+                            <span class="text-blue-400">8 時段</span>
+                        </div>
+                        <div id="stat-water" class="text-2xl sm:text-3xl font-black text-blue-300 num-font">2,380</div>
+                        <div class="text-[10px] text-slate-400 truncate">ml / 毫升</div>
+                    </div>
+                </div>
+
+                <!-- 2. BODY COMPOSITION & FFMI ANALYSIS (WITH CHART 1) -->
+                <div class="glass-panel rounded-3xl p-6 space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-child-reaching text-emerald-400"></i>
+                                <span>體組成與 FFMI 無脂體重指數剖析</span>
+                            </h3>
+                            <p class="text-xs text-slate-400">基於去脂體重 (LBM) 評估基因肌肉量天花板與肌肉發展等級</p>
+                        </div>
+                        <span id="ffmi-tier-badge" class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-full text-xs font-bold">
+                            FFMI: 18.5 (平均精壯)
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <!-- Chart 1: Composition Donut Chart -->
+                        <div class="md:col-span-5 flex flex-col items-center">
+                            <div class="w-48 h-48 relative">
+                                <canvas id="chart-body-comp"></canvas>
+                            </div>
+                            <div class="flex items-center justify-center gap-4 text-xs mt-3">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-square text-emerald-400"></i> 去脂體重 LBM</span>
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-square text-cyan-400"></i> 脂肪重 Fat Mass</span>
+                            </div>
+                        </div>
+
+                        <!-- Details Grid -->
+                        <div class="md:col-span-7 space-y-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="glass-card p-3 rounded-2xl space-y-1">
+                                    <div class="text-[11px] text-slate-400 font-semibold">去脂體重 (LBM)</div>
+                                    <div id="display-lbm" class="text-xl font-black text-emerald-400 num-font">56.6 kg</div>
+                                    <div class="text-[10px] text-slate-400">包含肌肉、骨骼與水分</div>
+                                </div>
+                                <div class="glass-card p-3 rounded-2xl space-y-1">
+                                    <div class="text-[11px] text-slate-400 font-semibold">體脂重量 (Fat Mass)</div>
+                                    <div id="display-fat-mass" class="text-xl font-black text-cyan-400 num-font">11.4 kg</div>
+                                    <div class="text-[10px] text-slate-400">皮下脂肪與內臟脂肪總合</div>
+                                </div>
+                            </div>
+
+                            <!-- FFMI Gauge Progress -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-300 font-semibold">FFMI 肌肉發展指數</span>
+                                    <span id="display-ffmi-val" class="font-bold text-emerald-400 num-font">18.5 kg/m²</span>
+                                </div>
+                                <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-blue-500 w-[20%]" title="低於平均 (<18)"></div>
+                                    <div class="h-full bg-emerald-500 w-[40%]" title="平均體態 (18-20)"></div>
+                                    <div class="h-full bg-teal-400 w-[20%]" title="肌肉發達 (20-22)"></div>
+                                    <div class="h-full bg-amber-400 w-[15%]" title="頂尖運動員 (22-24)"></div>
+                                    <div class="h-full bg-rose-500 w-[5%]" title="極致潛能 (25+)"></div>
+                                </div>
+                                <p id="ffmi-description" class="text-xs text-slate-300 leading-relaxed">
+                                    望家睿的無脂體重指數落於平均精壯區間，具備良好的基礎肌肉質量與代謝潛力。
+                                </p>
+                            </div>
+
+                            <!-- 腰圍指標 (WHtR & WHR) -->
+                            <div class="grid grid-cols-2 gap-3 pt-2">
+                                <div class="bg-slate-900/50 p-2.5 rounded-xl border border-slate-800">
+                                    <div class="text-[10px] text-slate-400">腰圍身長比 (WHtR)</div>
+                                    <div id="display-whtr" class="text-sm font-bold text-slate-100 num-font">0.45 <span class="text-[10px] text-emerald-400 font-normal">(理想)</span></div>
+                                </div>
+                                <div class="bg-slate-900/50 p-2.5 rounded-xl border border-slate-800">
+                                    <div class="text-[10px] text-slate-400">腰臀比 (WHR)</div>
+                                    <div id="display-whr" class="text-sm font-bold text-slate-100 num-font">0.82 <span class="text-[10px] text-emerald-400 font-normal">(低風險)</span></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. METABOLIC ENGINES & IDEAL WEIGHT COMPARISON -->
+                <div class="glass-panel rounded-3xl p-6 space-y-6">
+                    <div class="border-b border-slate-800 pb-4">
+                        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-cyan-400"></i>
+                            <span>代謝率多公式計算與理想體重模型對比</span>
+                        </h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <!-- BMR 3 Formulas Comparison Table -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">基礎代謝率 (BMR) 三大算術模型</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-slate-800 text-slate-400">
+                                            <th class="py-2 font-semibold">公式名稱</th>
+                                            <th class="py-2 font-semibold">計算依據</th>
+                                            <th class="py-2 font-semibold text-right">估算 BMR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800/60">
+                                        <tr>
+                                            <td class="py-2.5 font-bold text-emerald-400">Mifflin-St Jeor</td>
+                                            <td class="py-2.5 text-slate-400 text-[11px]">身高/體重/年齡/性別 (現代精確)</td>
+                                            <td id="bmr-mifflin" class="py-2.5 text-right font-mono font-bold text-slate-100">1,643 kcal</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 font-bold text-cyan-400">Harris-Benedict</td>
+                                            <td class="py-2.5 text-slate-400 text-[11px]">經典身體表面積推算</td>
+                                            <td id="bmr-harris" class="py-2.5 text-right font-mono font-bold text-slate-100">1,685 kcal</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 font-bold text-amber-400">Katch-McArdle</td>
+                                            <td class="py-2.5 text-slate-400 text-[11px]">基於去脂體重 LBM 肌肉量</td>
+                                            <td id="bmr-katch" class="py-2.5 text-right font-mono font-bold text-slate-100">1,592 kcal</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Ideal Body Weight 4 Formulas Comparison -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">理想體重 (IBW) 多模型預測比較</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-slate-800 text-slate-400">
+                                            <th class="py-2 font-semibold">公式權威來源</th>
+                                            <th class="py-2 font-semibold text-right">理想體重</th>
+                                            <th class="py-2 font-semibold text-right">與現狀差距</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800/60">
+                                        <tr>
+                                            <td class="py-2.5 font-bold text-slate-200">衛福部 MOHW (BMI 22)</td>
+                                            <td id="ibw-mohw" class="py-2.5 text-right font-mono font-bold text-emerald-400">67.4 kg</td>
+                                            <td id="diff-mohw" class="py-2.5 text-right font-mono text-slate-400">-0.6 kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 text-slate-300">Devine 公式 (臨床常用)</td>
+                                            <td id="ibw-devine" class="py-2.5 text-right font-mono font-bold text-slate-200">68.4 kg</td>
+                                            <td id="diff-devine" class="py-2.5 text-right font-mono text-slate-400">+0.4 kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 text-slate-300">Hamwi 公式 (骨架標準)</td>
+                                            <td id="ibw-hamwi" class="py-2.5 text-right font-mono font-bold text-slate-200">67.3 kg</td>
+                                            <td id="diff-hamwi" class="py-2.5 text-right font-mono text-slate-400">-0.7 kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 text-slate-300">Miller 公式</td>
+                                            <td id="ibw-miller" class="py-2.5 text-right font-mono font-bold text-slate-200">68.8 kg</td>
+                                            <td id="diff-miller" class="py-2.5 text-right font-mono text-slate-400">+0.8 kg</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 4. MACRONUTRIENTS & GOAL PROJECTION (WITH CHARTS 3 & 4) -->
+                <div class="glass-panel rounded-3xl p-6 space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-amber-400"></i>
+                                <span>營養素熱量拆解與目標體重預估趨勢</span>
+                            </h3>
+                            <p class="text-xs text-slate-400">每日熱量缺口與時間軸推估</p>
+                        </div>
+                        <span id="target-summary-badge" class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full text-xs font-bold">
+                            預估 8 週達成 65.0 kg
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <!-- Chart 4: Macro Pie Chart (5 Cols) -->
+                        <div class="md:col-span-5 flex flex-col items-center">
+                            <div class="w-44 h-44 relative">
+                                <canvas id="chart-macro"></canvas>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 w-full text-center text-xs mt-3">
+                                <div class="bg-slate-900/60 p-2 rounded-xl">
+                                    <div class="text-emerald-400 font-bold">蛋白</div>
+                                    <div id="macro-g-protein" class="num-font font-extrabold text-white">120g</div>
+                                </div>
+                                <div class="bg-slate-900/60 p-2 rounded-xl">
+                                    <div class="text-cyan-400 font-bold">碳水</div>
+                                    <div id="macro-g-carbs" class="num-font font-extrabold text-white">240g</div>
+                                </div>
+                                <div class="bg-slate-900/60 p-2 rounded-xl">
+                                    <div class="text-amber-400 font-bold">脂肪</div>
+                                    <div id="macro-g-fats" class="num-font font-extrabold text-white">53g</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart 3: Target Line Trend (7 Cols) -->
+                        <div class="md:col-span-7 space-y-3">
+                            <div class="h-44 w-full">
+                                <canvas id="chart-target-trend"></canvas>
+                            </div>
+                            <div class="flex justify-between text-xs text-slate-400 font-medium">
+                                <span>起始: <b id="trend-start-weight" class="text-white">68.0 kg</b></span>
+                                <span>預估每週變動: <b id="trend-weekly-rate" class="text-amber-400">-0.38 kg</b></span>
+                                <span>目標: <b id="trend-target-weight" class="text-emerald-400">65.0 kg</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. CARDIAC HEALTH & 5 HEART RATE ZONES (WITH CHART 2) -->
+                <div class="glass-panel rounded-3xl p-6 space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-heart-pulse text-rose-400"></i>
+                                <span>心律訓練區間與最大心率 (Tanaka Formula)</span>
+                            </h3>
+                            <p class="text-xs text-slate-400">估算最大心率 (MHR) 與 5 大目標運動區間</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400">預估最大心率: </span>
+                            <span id="display-max-hr" class="text-sm font-black text-rose-400 num-font">188 bpm</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <!-- Chart 2: HR Zones Bar Chart -->
+                        <div class="md:col-span-6 h-52">
+                            <canvas id="chart-hr-zones"></canvas>
+                        </div>
+
+                        <!-- HR Zones Table Details -->
+                        <div class="md:col-span-6 space-y-2 text-xs">
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                                <div><b class="text-blue-400">Zone 1 暖身恢復 (50-60%)</b></div>
+                                <div id="hr-z1" class="font-mono font-bold text-slate-200">94 - 113 bpm</div>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                                <div><b class="text-emerald-400">Zone 2 燃脂有氧 (60-70%)</b></div>
+                                <div id="hr-z2" class="font-mono font-bold text-slate-200">113 - 132 bpm</div>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-teal-500/10 border border-teal-500/20">
+                                <div><b class="text-teal-300">Zone 3 耐力有氧 (70-80%)</b></div>
+                                <div id="hr-z3" class="font-mono font-bold text-slate-200">132 - 150 bpm</div>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                                <div><b class="text-amber-400">Zone 4 無氧耐力 (80-90%)</b></div>
+                                <div id="hr-z4" class="font-mono font-bold text-slate-200">150 - 169 bpm</div>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                                <div><b class="text-rose-400">Zone 5 極限衝刺 (90-100%)</b></div>
+                                <div id="hr-z5" class="font-mono font-bold text-slate-200">169 - 188 bpm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- ================= FULL WIDTH 1: HYDRATION & TIMED PLAN ================= -->
+        <section class="glass-panel rounded-3xl p-6 md:p-8 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-glass-water-droplet text-blue-400"></i>
+                    <span>全天 8 大黃金補水時間表 (Daily Hydration Schedule)</span>
+                </h3>
+                <span id="hydration-total-badge" class="text-xs font-bold text-blue-300 bg-blue-500/20 px-3 py-1 rounded-full border border-blue-500/30">
+                    目標: 2,380 ml / 每日
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3" id="hydration-schedule-container">
+                <!-- Dynamically populated 8 time blocks -->
+            </div>
+        </section>
+
+        <!-- ================= FULL WIDTH 2: RISK ALERTS & PERSONALIZED PRESCRIPTION ================= -->
+        <section class="glass-panel rounded-3xl p-6 md:p-8 space-y-6 print-break-inside-avoid">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-lg font-extrabold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-user-doctor text-emerald-400"></i>
+                        <span>望家睿 個人化臨床級健康改善處方簽</span>
+                    </h2>
+                    <p class="text-xs text-slate-400">AI 智能評估與風險警訊</p>
+                </div>
+                <div class="flex gap-2">
+                    <span id="risk-alert-metabolic" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        代謝症候群: 低
+                    </span>
+                    <span id="risk-alert-visceral" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        內臟脂肪: 正常
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1: Diet Prescription -->
+                <div class="glass-card p-5 rounded-2xl space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-plate-wheat"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">飲食營養建議處方</h3>
+                    <ul id="rx-diet-list" class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                        <!-- Dynamic content -->
+                    </ul>
+                </div>
+
+                <!-- Card 2: Exercise Prescription -->
+                <div class="glass-card p-5 rounded-2xl space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-person-running"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">運動與體能培訓處方</h3>
+                    <ul id="rx-exercise-list" class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                        <!-- Dynamic content -->
+                    </ul>
+                </div>
+
+                <!-- Card 3: Lifestyle & Warning Risks -->
+                <div class="glass-card p-5 rounded-2xl space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">生活作息與預防警訊</h3>
+                    <ul id="rx-lifestyle-list" class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                        <!-- Dynamic content -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FULL WIDTH 3: LOCALSTORAGE HISTORY & DATA HUB ================= -->
+        <section class="glass-panel rounded-3xl p-6 md:p-8 space-y-6 no-print">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-lg font-extrabold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-database text-cyan-400"></i>
+                        <span>歷史追蹤數據庫與 LocalStorage 管理</span>
+                    </h2>
+                    <p class="text-xs text-slate-400">儲存每次受測紀錄，支援資料匯出與匯入</p>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="exportHistoryJSON()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-file-export text-emerald-400"></i> 匯出 JSON
+                    </button>
+                    <label class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer">
+                        <i class="fa-solid fa-file-import text-cyan-400"></i> 匯入 JSON
+                        <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="importHistoryJSON(event)">
+                    </label>
+                    <button onclick="clearAllHistory()" class="px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs font-semibold flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-trash-can"></i> 清空紀錄
+                    </button>
+                </div>
+            </div>
+
+            <!-- History Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-400">
+                            <th class="py-2.5 px-3">日期時間</th>
+                            <th class="py-2.5 px-3">姓名</th>
+                            <th class="py-2.5 px-3">體重</th>
+                            <th class="py-2.5 px-3">BMI</th>
+                            <th class="py-2.5 px-3">體脂率</th>
+                            <th class="py-2.5 px-3">FFMI</th>
+                            <th class="py-2.5 px-3">腰圍</th>
+                            <th class="py-2.5 px-3">TDEE</th>
+                            <th class="py-2.5 px-3 text-right">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body" class="divide-y divide-slate-800/60 font-mono">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center text-xs text-slate-400 space-y-1.5 py-4">
+            <p>© 2026 望家睿 智慧健康與體組成全方位分析系統 (Wang Jia-Rui Ultimate Health Hub)</p>
+            <p class="text-[11px] opacity-75">免責聲明：本系統計算數據包含 MOHW、US Navy、Mifflin-St Jeor、Tanaka 等醫學公式推算，僅供自主健康管理與運動規劃參考。</p>
+        </footer>
+
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-msg" class="fixed bottom-6 right-6 bg-emerald-400 text-slate-950 px-5 py-3 rounded-2xl font-bold text-sm shadow-2xl transition-all duration-300 opacity-0 translate-y-10 pointer-events-none flex items-center gap-2 z-50">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-text">紀錄已成功儲存！</span>
+    </div>
+
+    <!-- ================= JAVASCRIPT SYSTEM ENGINE ================= -->
+    <script>
+        // Global State & Chart Instances
+        let currentUnit = 'metric'; // 'metric' or 'imperial'
+        let currentGender = 'male'; // 'male' or 'female'
+
+        let chartBodyComp = null;
+        let chartHrZones = null;
+        let chartTargetTrend = null;
+        let chartMacro = null;
+
+        // Toggle Units
+        function setUnit(unit) {
+            if (currentUnit === unit) return;
+            
+            const oldUnit = currentUnit;
+            currentUnit = unit;
+
+            const btnMetric = document.getElementById('unit-btn-metric');
+            const btnImperial = document.getElementById('unit-btn-imperial');
+
+            const hInput = document.getElementById('input-height');
+            const wInput = document.getElementById('input-weight');
+            const neckInput = document.getElementById('input-neck');
+            const waistInput = document.getElementById('input-waist');
+            const hipInput = document.getElementById('input-hip');
+            const targetWInput = document.getElementById('input-target-weight');
+
+            if (unit === 'imperial') {
+                btnImperial.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500 text-slate-950';
+                btnMetric.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white';
+                
+                // Convert values to Imperial
+                hInput.value = (parseFloat(hInput.value) / 2.54).toFixed(1); // cm -> inch
+                wInput.value = (parseFloat(wInput.value) * 2.20462).toFixed(1); // kg -> lbs
+                neckInput.value = (parseFloat(neckInput.value) / 2.54).toFixed(1);
+                waistInput.value = (parseFloat(waistInput.value) / 2.54).toFixed(1);
+                hipInput.value = (parseFloat(hipInput.value) / 2.54).toFixed(1);
+                targetWInput.value = (parseFloat(targetWInput.value) * 2.20462).toFixed(1);
+
+                document.querySelectorAll('.unit-label-height').forEach(el => el.textContent = '(in)');
+                document.querySelectorAll('.unit-label-weight').forEach(el => el.textContent = '(lbs)');
+                document.querySelectorAll('.unit-label-length').forEach(el => el.textContent = '(in)');
+            } else {
+                btnMetric.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500 text-slate-950';
+                btnImperial.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white';
+
+                // Convert values to Metric
+                hInput.value = (parseFloat(hInput.value) * 2.54).toFixed(1); // inch -> cm
+                wInput.value = (parseFloat(wInput.value) / 2.20462).toFixed(1); // lbs -> kg
+                neckInput.value = (parseFloat(neckInput.value) * 2.54).toFixed(1);
+                waistInput.value = (parseFloat(waistInput.value) * 2.54).toFixed(1);
+                hipInput.value = (parseFloat(hipInput.value) * 2.54).toFixed(1);
+                targetWInput.value = (parseFloat(targetWInput.value) / 2.20462).toFixed(1);
+
+                document.querySelectorAll('.unit-label-height').forEach(el => el.textContent = '(cm)');
+                document.querySelectorAll('.unit-label-weight').forEach(el => el.textContent = '(kg)');
+                document.querySelectorAll('.unit-label-length').forEach(el => el.textContent = '(cm)');
+            }
+
+            runAllCalculations();
+        }
+
+        // Gender Switcher
+        function setGender(gender) {
+            currentGender = gender;
+            const btnMale = document.getElementById('btn-male');
+            const btnFemale = document.getElementById('btn-female');
+            const hipContainer = document.getElementById('hip-input-container');
+
+            if (gender === 'male') {
+                btnMale.className = 'py-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition bg-emerald-500/20 border-emerald-400 text-emerald-300';
+                btnFemale.className = 'py-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition bg-slate-800 border-slate-700 text-slate-400';
+            } else {
+                btnFemale.className = 'py-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition bg-emerald-500/20 border-emerald-400 text-emerald-300';
+                btnMale.className = 'py-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition bg-slate-800 border-slate-700 text-slate-400';
+            }
+            runAllCalculations();
+        }
+
+        // Main Calculation Controller
+        function runAllCalculations() {
+            // Get Raw Values and convert to Metric internally
+            let rawH = parseFloat(document.getElementById('input-height').value) || 175;
+            let rawW = parseFloat(document.getElementById('input-weight').value) || 68;
+            let rawNeck = parseFloat(document.getElementById('input-neck').value) || 37.5;
+            let rawWaist = parseFloat(document.getElementById('input-waist').value) || 78;
+            let rawHip = parseFloat(document.getElementById('input-hip').value) || 95;
+            let rawTargetW = parseFloat(document.getElementById('input-target-weight').value) || 65;
+
+            let hCm = currentUnit === 'imperial' ? rawH * 2.54 : rawH;
+            let wKg = currentUnit === 'imperial' ? rawW / 2.20462 : rawW;
+            let neckCm = currentUnit === 'imperial' ? rawNeck * 2.54 : rawNeck;
+            let waistCm = currentUnit === 'imperial' ? rawWaist * 2.54 : rawWaist;
+            let hipCm = currentUnit === 'imperial' ? rawHip * 2.54 : rawHip;
+            let targetWKg = currentUnit === 'imperial' ? rawTargetW / 2.20462 : rawTargetW;
+
+            let age = parseInt(document.getElementById('input-age').value) || 28;
+            let activityFactor = parseFloat(document.getElementById('input-activity').value) || 1.375;
+            let goalFactor = parseFloat(document.getElementById('input-goal').value) || -0.15;
+            let macroSplit = document.getElementById('input-macro-split').value;
+            let targetWeeks = parseInt(document.getElementById('input-target-weeks').value) || 8;
+
+            let hM = hCm / 100;
+            let hIn = hCm / 2.54;
+
+            // 1. BMI Calculation & MOHW Status
+            let bmi = wKg / (hM * hM);
+            updateBmiUI(bmi);
+
+            // 2. US Navy Body Fat % Calculation
+            let bodyFatPct = 0;
+            if (currentGender === 'male') {
+                let val = Math.log10(waistCm - neckCm) - (0.15456 * Math.log10(hCm));
+                bodyFatPct = (495 / (1.0324 - (0.19077 * val))) - 450;
+            } else {
+                let val = Math.log10(waistCm + hipCm - neckCm) - (0.22100 * Math.log10(hCm));
+                bodyFatPct = (495 / (1.29579 - (0.35004 * val))) - 450;
+            }
+
+            // Fallback safeguards for body fat
+            if (isNaN(bodyFatPct) || bodyFatPct < 3 || bodyFatPct > 60) {
+                // Deurenberg formula as backup
+                bodyFatPct = (1.20 * bmi) + (0.23 * age) - (10.8 * (currentGender === 'male' ? 1 : 0)) - 5.4;
+            }
+
+            let fatMassKg = wKg * (bodyFatPct / 100);
+            let lbmKg = wKg - fatMassKg;
+
+            updateBodyCompUI(bodyFatPct, fatMassKg, lbmKg, wKg);
+
+            // 3. FFMI Calculation
+            let ffmi = lbmKg / (hM * hM);
+            let normalizedFfmi = ffmi + 6.1 * (1.8 - hM);
+            updateFfmiUI(normalizedFfmi);
+
+            // 4. WHtR & WHR Ratios
+            let whtr = waistCm / hCm;
+            let whr = waistCm / hipCm;
+            document.getElementById('display-whtr').innerHTML = `${whtr.toFixed(2)} <span class="text-[10px] ${whtr < 0.5 ? 'text-emerald-400' : 'text-amber-400'} font-normal">(${whtr < 0.5 ? '理想' : '心血管警戒'})</span>`;
+            document.getElementById('display-whr').innerHTML = `${whr.toFixed(2)} <span class="text-[10px] ${(currentGender === 'male' ? whr < 0.9 : whr < 0.85) ? 'text-emerald-400' : 'text-amber-400'} font-normal">(${(currentGender === 'male' ? whr < 0.9 : whr < 0.85) ? '低風險' : '腹部積脂'})</span>`;
+
+            // 5. BMR Triple Formulas
+            let bmrMifflin = (10 * wKg) + (6.25 * hCm) - (5 * age) + (currentGender === 'male' ? 5 : -161);
+            let bmrHarris = (currentGender === 'male') ? 
+                (88.362 + (13.397 * wKg) + (4.799 * hCm) - (5.677 * age)) :
+                (447.593 + (9.247 * wKg) + (3.098 * hCm) - (4.330 * age));
+            let bmrKatch = 370 + (21.6 * lbmKg);
+
+            document.getElementById('bmr-mifflin').textContent = `${Math.round(bmrMifflin).toLocaleString()} kcal`;
+            document.getElementById('bmr-harris').textContent = `${Math.round(bmrHarris).toLocaleString()} kcal`;
+            document.getElementById('bmr-katch').textContent = `${Math.round(bmrKatch).toLocaleString()} kcal`;
+
+            // 6. TDEE & Target Calorie
+            let tdee = bmrMifflin * activityFactor;
+            let targetCal = tdee * (1 + goalFactor);
+
+            document.getElementById('stat-target-cal').textContent = Math.round(targetCal).toLocaleString();
+            document.getElementById('stat-tdee-base').textContent = `TDEE ${Math.round(tdee).toLocaleString()} kcal`;
+
+            let goalTypeLabel = goalFactor < 0 ? `${Math.round(goalFactor*100)}% 減脂` : (goalFactor > 0 ? `+${Math.round(goalFactor*100)}% 增肌` : '維持');
+            document.getElementById('badge-goal-type').textContent = goalTypeLabel;
+
+            // 7. IBW Multi Formulas
+            updateIbwTable(hM, hIn, wKg);
+
+            // 8. Hydration Schedule
+            let baseWater = wKg * 35;
+            let bonusWater = (activityFactor > 1.4) ? 500 : 200;
+            let totalWater = baseWater + bonusWater;
+            document.getElementById('stat-water').textContent = Math.round(totalWater).toLocaleString();
+            document.getElementById('hydration-total-badge').textContent = `目標: ${Math.round(totalWater).toLocaleString()} ml / 每日`;
+            renderHydrationSchedule(totalWater);
+
+            // 9. Heart Rate Zones (Tanaka Formula: 208 - 0.7*age)
+            let maxHr = Math.round(208 - (0.7 * age));
+            document.getElementById('display-max-hr').textContent = `${maxHr} bpm`;
+            updateHrZones(maxHr);
+
+            // 10. Macronutrients Breakdown
+            updateMacros(targetCal, macroSplit);
+
+            // 11. Target Projection Trend
+            updateTargetTrend(wKg, targetWKg, targetWeeks, targetCal, tdee);
+
+            // 12. Dynamic Prescription & Risk Alerts
+            updatePrescriptionAndRisks(bmi, bodyFatPct, whtr, whr, goalFactor, activityFactor);
+
+            // Render/Update Charts
+            renderCharts(lbmKg, fatMassKg, maxHr, wKg, targetWKg, targetWeeks, targetCal, macroSplit);
+        }
+
+        // BMI Status Helper
+        function updateBmiUI(bmi) {
+            document.getElementById('stat-bmi').textContent = bmi.toFixed(1);
+            let badge = document.getElementById('badge-bmi-cat');
+            let desc = document.getElementById('stat-bmi-desc');
+
+            if (bmi < 18.5) {
+                badge.textContent = '過輕';
+                badge.className = 'text-blue-400 font-bold';
+                desc.textContent = '低於標準 18.5';
+            } else if (bmi < 24) {
+                badge.textContent = '標準';
+                badge.className = 'text-emerald-400 font-bold';
+                desc.textContent = '衛福部健康體位';
+            } else if (bmi < 27) {
+                badge.textContent = '過重';
+                badge.className = 'text-amber-400 font-bold';
+                desc.textContent = '過重警戒 (24~26.9)';
+            } else if (bmi < 30) {
+                badge.textContent = '輕度肥胖';
+                badge.className = 'text-orange-400 font-bold';
+                desc.textContent = '輕度肥胖 (27~29.9)';
+            } else if (bmi < 35) {
+                badge.textContent = '中度肥胖';
+                badge.className = 'text-rose-400 font-bold';
+                desc.textContent = '中度肥胖 (30~34.9)';
+            } else {
+                badge.textContent = '重度肥胖';
+                badge.className = 'text-purple-400 font-bold';
+                desc.textContent = '重度肥胖 (≥35)';
+            }
+        }
+
+        // Body Fat & Composition Helper
+        function updateBodyCompUI(fatPct, fatKg, lbmKg, totalWKg) {
+            document.getElementById('stat-bodyfat').textContent = `${fatPct.toFixed(1)} %`;
+
+            let displayFatKg = currentUnit === 'imperial' ? (fatKg * 2.20462).toFixed(1) + ' lbs' : fatKg.toFixed(1) + ' kg';
+            let displayLbmKg = currentUnit === 'imperial' ? (lbmKg * 2.20462).toFixed(1) + ' lbs' : lbmKg.toFixed(1) + ' kg';
+
+            document.getElementById('stat-fat-mass').textContent = `脂肪重 ${displayFatKg}`;
+            document.getElementById('display-lbm').textContent = displayLbmKg;
+            document.getElementById('display-fat-mass').textContent = displayFatKg;
+
+            let badge = document.getElementById('badge-fat-cat');
+            if (currentGender === 'male') {
+                if (fatPct < 10) badge.textContent = '精瘦 (選手級)';
+                else if (fatPct < 20) badge.textContent = '理想標準';
+                else if (fatPct < 25) badge.textContent = '偏高';
+                else badge.textContent = '肥胖警戒';
+            } else {
+                if (fatPct < 18) badge.textContent = '精瘦 (選手級)';
+                else if (fatPct < 28) badge.textContent = '理想標準';
+                else if (fatPct < 32) badge.textContent = '偏高';
+                else badge.textContent = '肥胖警戒';
+            }
+        }
+
+        // FFMI Helper
+        function updateFfmiUI(ffmi) {
+            document.getElementById('display-ffmi-val').textContent = `${ffmi.toFixed(1)} kg/m²`;
+            let badge = document.getElementById('ffmi-tier-badge');
+            let desc = document.getElementById('ffmi-description');
+
+            let name = document.getElementById('input-name').value || '望家睿';
+
+            if (ffmi < 18) {
+                badge.textContent = `FFMI: ${ffmi.toFixed(1)} (偏低/肌肉少)`;
+                badge.className = 'px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/40 rounded-full text-xs font-bold';
+                desc.textContent = `${name}的肌肉量佔比偏低，建議搭配阻力訓練與蛋白質補充，預防肌少症發生。`;
+            } else if (ffmi < 20) {
+                badge.textContent = `FFMI: ${ffmi.toFixed(1)} (平均精壯)`;
+                badge.className = 'px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-full text-xs font-bold';
+                desc.textContent = `${name}的無脂體重指數落於平均精壯區間，具備良好的基礎肌肉質量與代謝體質。`;
+            } else if (ffmi < 22) {
+                badge.textContent = `FFMI: ${ffmi.toFixed(1)} (發達健身體態)`;
+                badge.className = 'px-3 py-1 bg-teal-500/20 text-teal-300 border border-teal-500/40 rounded-full text-xs font-bold';
+                desc.textContent = `${name}肌肉發達，優於一般大眾平均，基礎代謝力旺盛！`;
+            } else if (ffmi < 24) {
+                badge.textContent = `FFMI: ${ffmi.toFixed(1)} (頂尖運動員級)`;
+                badge.className = 'px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full text-xs font-bold';
+                desc.textContent = `${name}具有媲美職業運動員的肌肉密度與天花板基因潛能！`;
+            } else {
+                badge.textContent = `FFMI: ${ffmi.toFixed(1)} (極致自然潛能頂峰)`;
+                badge.className = 'px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full text-xs font-bold';
+                desc.textContent = `到達自然健身極限頂峰數值！請注意關節強度與修復休息。`;
+            }
+        }
+
+        // IBW Table Helper
+        function updateIbwTable(hM, hIn, wKg) {
+            let mohw = 22 * hM * hM;
+            let devine = currentGender === 'male' ? 50 + 2.3 * (hIn - 60) : 45.5 + 2.3 * (hIn - 60);
+            let hamwi = currentGender === 'male' ? 48 + 2.7 * (hIn - 60) : 45.5 + 2.2 * (hIn - 60);
+            let miller = currentGender === 'male' ? 56.2 + 1.41 * (hIn - 60) : 53.1 + 1.36 * (hIn - 60);
+
+            let formatVal = (valKg) => {
+                if (currentUnit === 'imperial') return (valKg * 2.20462).toFixed(1) + ' lbs';
+                return valKg.toFixed(1) + ' kg';
+            };
+
+            let formatDiff = (valKg) => {
+                let diff = valKg - wKg;
+                if (currentUnit === 'imperial') diff *= 2.20462;
+                return (diff > 0 ? '+' : '') + diff.toFixed(1) + (currentUnit === 'imperial' ? ' lbs' : ' kg');
+            };
+
+            document.getElementById('ibw-mohw').textContent = formatVal(mohw);
+            document.getElementById('diff-mohw').textContent = formatDiff(mohw);
+
+            document.getElementById('ibw-devine').textContent = formatVal(devine);
+            document.getElementById('diff-devine').textContent = formatDiff(devine);
+
+            document.getElementById('ibw-hamwi').textContent = formatVal(hamwi);
+            document.getElementById('diff-hamwi').textContent = formatDiff(hamwi);
+
+            document.getElementById('ibw-miller').textContent = formatVal(miller);
+            document.getElementById('diff-miller').textContent = formatDiff(miller);
+        }
+
+        // Hydration Schedule Render
+        function renderHydrationSchedule(totalWater) {
+            const container = document.getElementById('hydration-schedule-container');
+            const portion = Math.round(totalWater / 8);
+
+            const times = [
+                { time: '07:00 起床', label: '促進腸道蠕動', icon: 'fa-sun' },
+                { time: '09:00 工作', label: '提高大腦注意力', icon: 'fa-briefcase' },
+                { time: '11:30 餐前', label: '增加飽足感', icon: 'fa-utensils' },
+                { time: '13:30 午休後', label: '促進新陳代謝', icon: 'fa-bolt' },
+                { time: '15:30 下午茶', label: '戒除零食點心', icon: 'fa-mug-hot' },
+                { time: '17:30 離峰', label: '排毒減輕疲勞', icon: 'fa-walk-sparkles' },
+                { time: '19:30 晚餐後', label: '協助消化吸收', icon: 'fa-bowl-food' },
+                { time: '21:30 睡前', label: '預防血液黏稠', icon: 'fa-moon' }
+            ];
+
+            container.innerHTML = times.map(t => `
+                <div class="bg-slate-900/60 p-2.5 rounded-2xl border border-slate-800 text-center space-y-1">
+                    <div class="text-[10px] text-blue-400 font-bold flex items-center justify-center gap-1">
+                        <i class="fa-solid ${t.icon}"></i> ${t.time}
+                    </div>
+                    <div class="text-xs font-black text-white num-font">${portion} ml</div>
+                    <div class="text-[9px] text-slate-400 truncate">${t.label}</div>
+                </div>
+            `).join('');
+        }
+
+        // Heart Rate Zones Helper
+        function updateHrZones(maxHr) {
+            let z1 = `${Math.round(maxHr * 0.5)} - ${Math.round(maxHr * 0.6)} bpm`;
+            let z2 = `${Math.round(maxHr * 0.6)} - ${Math.round(maxHr * 0.7)} bpm`;
+            let z3 = `${Math.round(maxHr * 0.7)} - ${Math.round(maxHr * 0.8)} bpm`;
+            let z4 = `${Math.round(maxHr * 0.8)} - ${Math.round(maxHr * 0.9)} bpm`;
+            let z5 = `${Math.round(maxHr * 0.9)} - ${maxHr} bpm`;
+
+            document.getElementById('hr-z1').textContent = z1;
+            document.getElementById('hr-z2').textContent = z2;
+            document.getElementById('hr-z3').textContent = z3;
+            document.getElementById('hr-z4').textContent = z4;
+            document.getElementById('hr-z5').textContent = z5;
+        }
+
+        // Macronutrients Calculator Helper
+        function updateMacros(targetCal, split) {
+            let pPct = 0.25, cPct = 0.50, fPct = 0.25;
+            if (split === 'high-protein') { pPct = 0.35; cPct = 0.40; fPct = 0.25; }
+            else if (split === 'low-carb') { pPct = 0.35; cPct = 0.15; fPct = 0.50; }
+
+            let pCal = targetCal * pPct;
+            let cCal = targetCal * cPct;
+            let fCal = targetCal * fPct;
+
+            let pG = pCal / 4;
+            let cG = cCal / 4;
+            let fG = fCal / 9;
+
+            document.getElementById('macro-g-protein').textContent = `${Math.round(pG)}g`;
+            document.getElementById('macro-g-carbs').textContent = `${Math.round(cG)}g`;
+            document.getElementById('macro-g-fats').textContent = `${Math.round(fG)}g`;
+        }
+
+        // Target Projection Helper
+        function updateTargetTrend(currentWKg, targetWKg, weeks, targetCal, tdee) {
+            let dailyDeficit = tdee - targetCal; // positive = deficit, negative = surplus
+            let totalCalDiff = dailyDeficit * weeks * 7;
+            let projectedFatChangeKg = totalCalDiff / 7700; // 7700 kcal per kg fat
+
+            let expectedW = currentWKg - projectedFatChangeKg;
+
+            let displayCur = currentUnit === 'imperial' ? (currentWKg*2.20462).toFixed(1)+' lbs' : currentWKg.toFixed(1)+' kg';
+            let displayTarget = currentUnit === 'imperial' ? (targetWKg*2.20462).toFixed(1)+' lbs' : targetWKg.toFixed(1)+' kg';
+            let weeklyRate = (currentWKg - expectedW) / weeks;
+            let displayWeeklyRate = currentUnit === 'imperial' ? (weeklyRate*2.20462).toFixed(2)+' lbs/週' : weeklyRate.toFixed(2)+' kg/週';
+
+            document.getElementById('trend-start-weight').textContent = displayCur;
+            document.getElementById('trend-target-weight').textContent = displayTarget;
+            document.getElementById('trend-weekly-rate').textContent = (weeklyRate > 0 ? '-' : '+') + Math.abs(weeklyRate).toFixed(2) + (currentUnit === 'imperial' ? ' lbs/週' : ' kg/週');
+
+            document.getElementById('target-summary-badge').textContent = `預估 ${weeks} 週達成 ${displayTarget}`;
+        }
+
+        // Prescription and Risk Alerts Engine
+        function updatePrescriptionAndRisks(bmi, fatPct, whtr, whr, goalFactor, activityFactor) {
+            const name = document.getElementById('input-name').value || '望家睿';
+
+            // Risk lights
+            const metabolicBadge = document.getElementById('risk-alert-metabolic');
+            const visceralBadge = document.getElementById('risk-alert-visceral');
+
+            if (whtr > 0.5 || bmi >= 27) {
+                metabolicBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                metabolicBadge.textContent = '代謝症候群: 警戒區';
+            } else {
+                metabolicBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                metabolicBadge.textContent = '代謝症候群: 低風險';
+            }
+
+            let maxWhr = currentGender === 'male' ? 0.90 : 0.85;
+            if (whr > maxWhr) {
+                visceralBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                visceralBadge.textContent = '內臟脂肪: 蘋果型蓄積';
+            } else {
+                visceralBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                visceralBadge.textContent = '內臟脂肪: 理想均勻';
+            }
+
+            // Diet Prescription
+            const rxDiet = document.getElementById('rx-diet-list');
+            rxDiet.innerHTML = '';
+            if (goalFactor < 0) {
+                rxDiet.innerHTML += `<li>創造每日約 ${Math.round((1 - (1+goalFactor))*100)}% 的穩定熱量赤字。</li>`;
+                rxDiet.innerHTML += `<li>每餐優先攝取拳頭大小之優質蛋白質 (雞胸、黑豆、鮭魚)。</li>`;
+                rxDiet.innerHTML += `<li>將晚餐精緻澱粉替換為高纖非精緻碳水 (糙米、地瓜、藜麥)。</li>`;
+            } else if (goalFactor > 0) {
+                rxDiet.innerHTML += `<li>維持 10% 熱量盈餘，提供肌肉合成所需能量。</li>`;
+                rxDiet.innerHTML += `<li>運動後 30 分鐘內補充 25-30g 蛋白質與快充碳水。</li>`;
+            } else {
+                rxDiet.innerHTML += `<li>維持三大營養素平衡，原型食物比例保持 80% 以上。</li>`;
+            }
+            rxDiet.innerHTML += `<li>遵守全天 8 次分時水份補給計畫，促進腸胃代謝。</li>`;
+
+            // Exercise Prescription
+            const rxEx = document.getElementById('rx-exercise-list');
+            rxEx.innerHTML = '';
+            rxEx.innerHTML += `<li>每週安排 3 天阻力重量訓練，優先執行多關節複合動作 (蹲舉、硬舉、臥推)。</li>`;
+            if (fatPct > (currentGender === 'male' ? 20 : 28)) {
+                rxEx.innerHTML += `<li>每週增加 2-3 次 30 分鐘 Zone 2 (燃脂區間) 低強度有氧運動。</li>`;
+            } else {
+                rxEx.innerHTML += `<li>每週可安排 1 次 Zone 4 高強度間歇運動 (HIIT) 提升最大攝氧量。</li>`;
+            }
+            rxEx.innerHTML += `<li>運動前後落實 10 分鐘動態暖身與靜態伸展。</li>`;
+
+            // Lifestyle Prescription
+            const rxLife = document.getElementById('rx-lifestyle-list');
+            rxLife.innerHTML = '';
+            rxLife.innerHTML += `<li>維持每晚 7.5~8 小時高質量睡眠，促進生長激素 (GH) 分泌。</li>`;
+            rxLife.innerHTML += `<li>避免睡前 2 小時進食與使用藍光裝置，降低皮質醇干擾。</li>`;
+            if (whtr > 0.5) {
+                rxLife.innerHTML += `<li>建議每 3~6 個月定期測量腰圍與空腹血糖。</li>`;
+            } else {
+                rxLife.innerHTML += `<li>體能狀態優秀！每週於固定時間測量體重紀錄長期趨勢即可。</li>`;
+            }
+        }
+
+        // Render / Update Chart.js Instance
+        function renderCharts(lbmKg, fatKg, maxHr, currentWKg, targetWKg, targetWeeks, targetCal, macroSplit) {
+            // Chart 1: Donut Body Comp
+            const ctxComp = document.getElementById('chart-body-comp').getContext('2d');
+            if (chartBodyComp) chartBodyComp.destroy();
+            chartBodyComp = new Chart(ctxComp, {
+                type: 'doughnut',
+                data: {
+                    labels: ['去脂體重 (LBM)', '體脂重量 (Fat)'],
+                    datasets: [{
+                        data: [lbmKg.toFixed(1), fatKg.toFixed(1)],
+                        backgroundColor: ['#10b981', '#06b6d4'],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    cutout: '72%'
+                }
+            });
+
+            // Chart 2: HR Zones Bar Chart
+            const ctxHr = document.getElementById('chart-hr-zones').getContext('2d');
+            if (chartHrZones) chartHrZones.destroy();
+            chartHrZones = new Chart(ctxHr, {
+                type: 'bar',
+                data: {
+                    labels: ['Z1 暖身', 'Z2 燃脂', 'Z3 耐力', 'Z4 無氧', 'Z5 極限'],
+                    datasets: [{
+                        data: [
+                            Math.round(maxHr * 0.6),
+                            Math.round(maxHr * 0.7),
+                            Math.round(maxHr * 0.8),
+                            Math.round(maxHr * 0.9),
+                            maxHr
+                        ],
+                        backgroundColor: ['#3b82f6', '#10b981', '#14b8a6', '#f59e0b', '#ef4444'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            min: Math.round(maxHr * 0.4),
+                            max: maxHr + 10,
+                            grid: { color: 'rgba(255,255,255,0.08)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            // Chart 3: Target Weight Trend Line Chart
+            const ctxTrend = document.getElementById('chart-target-trend').getContext('2d');
+            if (chartTargetTrend) chartTargetTrend.destroy();
+
+            let labels = [];
+            let dataPoints = [];
+            let step = (targetWKg - currentWKg) / targetWeeks;
+            for (let i = 0; i <= targetWeeks; i++) {
+                labels.push(`第 ${i} 週`);
+                let val = currentWKg + (step * i);
+                dataPoints.push(currentUnit === 'imperial' ? (val * 2.20462).toFixed(1) : val.toFixed(1));
+            }
+
+            chartTargetTrend = new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `預估體重 (${currentUnit === 'imperial' ? 'lbs' : 'kg'})`,
+                        data: dataPoints,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#f59e0b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.08)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+
+            // Chart 4: Macro Pie Chart
+            const ctxMacro = document.getElementById('chart-macro').getContext('2d');
+            if (chartMacro) chartMacro.destroy();
+
+            let pPct = 25, cPct = 50, fPct = 25;
+            if (macroSplit === 'high-protein') { pPct = 35; cPct = 40; fPct = 25; }
+            else if (macroSplit === 'low-carb') { pPct = 35; cPct = 15; fPct = 50; }
+
+            chartMacro = new Chart(ctxMacro, {
+                type: 'pie',
+                data: {
+                    labels: ['蛋白質', '碳水化合物', '脂肪'],
+                    datasets: [{
+                        data: [pPct, cPct, fPct],
+                        backgroundColor: ['#10b981', '#06b6d4', '#f59e0b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // LocalStorage History Operations
+        function saveCurrentRecord() {
+            const name = document.getElementById('input-name').value || '望家睿';
+            const bmi = document.getElementById('stat-bmi').textContent;
+            const fatPct = document.getElementById('stat-bodyfat').textContent;
+            const ffmi = document.getElementById('display-ffmi-val').textContent;
+            const waist = document.getElementById('input-waist').value + (currentUnit === 'imperial' ? ' in' : ' cm');
+            const weight = document.getElementById('input-weight').value + (currentUnit === 'imperial' ? ' lbs' : ' kg');
+            const tdee = document.getElementById('stat-target-cal').textContent + ' kcal';
+
+            const record = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('zh-TW', { hour12: false }),
+                name,
+                weight,
+                bmi,
+                fatPct,
+                ffmi,
+                waist,
+                tdee
+            };
+
+            let history = JSON.parse(localStorage.getItem('wang_health_history') || '[]');
+            history.unshift(record);
+            localStorage.setItem('wang_health_history', JSON.stringify(history));
+
+            renderHistoryTable();
+            showToast('受測紀錄已成功儲存至 LocalStorage！');
+        }
+
+        function renderHistoryTable() {
+            let history = JSON.parse(localStorage.getItem('wang_health_history') || '[]');
+            const tbody = document.getElementById('history-table-body');
+
+            if (history.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="py-6 text-center text-slate-400">目前尚無歷史紀錄，請點擊上方「儲存紀錄」按鈕。</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = history.map(item => `
+                <tr class="hover:bg-slate-800/40 transition">
+                    <td class="py-2.5 px-3 text-slate-300 text-[11px]">${item.timestamp}</td>
+                    <td class="py-2.5 px-3 font-bold text-slate-100">${item.name}</td>
+                    <td class="py-2.5 px-3 text-emerald-400 font-bold">${item.weight}</td>
+                    <td class="py-2.5 px-3 text-slate-200">${item.bmi}</td>
+                    <td class="py-2.5 px-3 text-cyan-400">${item.fatPct}</td>
+                    <td class="py-2.5 px-3 text-teal-300">${item.ffmi}</td>
+                    <td class="py-2.5 px-3 text-slate-300">${item.waist}</td>
+                    <td class="py-2.5 px-3 text-amber-400">${item.tdee}</td>
+                    <td class="py-2.5 px-3 text-right">
+                        <button onclick="deleteHistoryItem(${item.id})" class="text-rose-400 hover:text-rose-300 transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteHistoryItem(id) {
+            let history = JSON.parse(localStorage.getItem('wang_health_history') || '[]');
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem('wang_health_history', JSON.stringify(history));
+            renderHistoryTable();
+            showToast('已刪除該筆紀錄');
+        }
+
+        function clearAllHistory() {
+            if (confirm('確定要清空所有 LocalStorage 歷史紀錄嗎？')) {
+                localStorage.removeItem('wang_health_history');
+                renderHistoryTable();
+                showToast('已清空所有歷史紀錄');
+            }
+        }
+
+        function exportHistoryJSON() {
+            let history = localStorage.getItem('wang_health_history') || '[]';
+            let blob = new Blob([history], { type: 'application/json' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `wang_jia_rui_health_history_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('歷史紀錄 JSON 已成功匯出！');
+        }
+
+        function importHistoryJSON(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let importedData = JSON.parse(e.target.result);
+                    if (Array.isArray(importedData)) {
+                        localStorage.setItem('wang_health_history', JSON.stringify(importedData));
+                        renderHistoryTable();
+                        showToast('已成功匯入 JSON 歷史數據！');
+                    } else {
+                        alert('JSON 格式不正確');
+                    }
+                } catch (err) {
+                    alert('讀取 JSON 檔案失敗：' + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Clipboard Report Generation
+        function copyDiagnosticReport() {
+            const name = document.getElementById('input-name').value || '望家睿';
+            const bmi = document.getElementById('stat-bmi').textContent;
+            const fatPct = document.getElementById('stat-bodyfat').textContent;
+            const lbm = document.getElementById('display-lbm').textContent;
+            const targetCal = document.getElementById('stat-target-cal').textContent;
+            const water = document.getElementById('stat-water').textContent;
+            const ffmi = document.getElementById('display-ffmi-val').textContent;
+
+            const text = `🏥 【${name} 智慧健康與體組成全方位檢測報告】\n` +
+                         `-------------------------------------\n` +
+                         `• BMI 數值：${bmi} (衛福部標準)\n` +
+                         `• US Navy 體脂率：${fatPct}\n` +
+                         `• 去脂體重 (LBM)：${lbm}\n` +
+                         `• 無脂體重指數 (FFMI)：${ffmi}\n` +
+                         `• 建議目標熱量：${targetCal} kcal/日\n` +
+                         `• 全天建議飲水量：${water} ml\n` +
+                         `-------------------------------------\n` +
+                         `Wang Jia-Rui Ultimate Health OS 系統報告`;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => showToast('報告已成功複製到剪貼簿！'));
+            } else {
+                let ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); showToast('報告已複製到剪貼簿！'); } catch(e){}
+                document.body.removeChild(ta);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-msg');
+            document.getElementById('toast-text').textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 3000);
+        }
+
+        // Initialize Engine on Page Load
+        window.addEventListener('DOMContentLoaded', () => {
+            runAllCalculations();
+            renderHistoryTable();
+        });
+    </script>
+</body>
+</html>
